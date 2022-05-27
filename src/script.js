@@ -6,6 +6,10 @@ Project1 for ICG class, done using Threejs-journey course by Bruno Simon, youtub
 by DesignCourse, a lot of stackoverflow, examples from ICG class and three.js documentation. 
 */
 
+
+/* IMPORT -------------------------------------------------------------------- 
+*/
+
 import './style.css'
 import * as THREE from 'three' 
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
@@ -37,14 +41,17 @@ gltfLoader.load(
         gltf.scene.position.set(0,0,0)
         gltf.scene.scale.set(2,2,2)
         scene.add(gltf.scene)
+        //console.log('room3.glb') 
     }
 )
 
 
 /* DEBUG -------------------------------------------------------------------- 
 */
-const debugObject = {}   //its like containter - to put smth inside - in this case color 
-const gui = new dat.GUI({closed:false})   //Debug controls are open when we enter the site 
+const debugObject = {}   
+//its like containter - to put smth inside - in this case color 
+const gui = new dat.GUI({closed:false})   
+//Debug controls are open when we enter the site 
 
 
 //Creating folders: 
@@ -78,19 +85,19 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 
-/* FLOOR  -------------------------------------------------------------------- 
-*/
-const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(7,7),
-    new THREE.MeshStandardMaterial(
-        {
-            color: '#444444',
-            metalness: 0,
-            roughness: 0.5
-        })
-)
-floor.receiveShadow = true   //this floor receive shadow 
-floor.rotation.x= - Math.PI *0.5 //z pionowego ustawienia podloga jest teraz pozioma 
+// /* FLOOR  -------------------------------------------------------------------- 
+// */
+// const floor = new THREE.Mesh(
+//     new THREE.PlaneGeometry(7,7),
+//     new THREE.MeshStandardMaterial(
+//         {
+//             color: '#444444',
+//             metalness: 0,
+//             roughness: 0.5
+//         })
+// )
+// floor.receiveShadow = true   //this floor receive shadow     
+// floor.rotation.x= - Math.PI *0.5 //z pionowego ustawienia podloga jest teraz pozioma 
 //scene.add(floor)
 
 
@@ -175,17 +182,17 @@ LiliaGroup.position.set(0.6,0.35,0.95)  //ideal position for the candle
 
 /* LIGHTS -------------------------------------------------------------------- 
 */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
+//const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
 //scene.add(ambientLight)
 
 const directionalLight = new THREE.DirectionalLight(0xffffff,0.5)
 directionalLight.castShadow = true
 directionalLight.position.set(4,4,4)
 sungGroup.add(directionalLight)
-
+sunFolder.add(directionalLight, 'intensity')
 sunFolder.add(sungGroup, 'visible')
-sunFolder.add(sungGroup.position, 'x').min(-5).max(5).step(0.001).name('SunX')
-sunFolder.add(sungGroup.position, 'y').min(-5).max(5).step(0.001).name('SunY')
+//sunFolder.add(sungGroup.position, 'x').min(-5).max(5).step(0.001).name('SunX')
+//sunFolder.add(sungGroup.position, 'y').min(-5).max(5).step(0.001).name('SunY')
 sunFolder.add(sungGroup.position, 'z').min(-5).max(5).step(0.001).name('SunZ')
 
 //Point light for the candle1
@@ -296,7 +303,8 @@ waterFolder.add(rectAreaLight3, 'intensity')
 const particlesGeometry = new THREE.BufferGeometry()
 const particlesCount = 1000
 const posArray = new Float32Array(particlesCount *3)
-//here we are specifing the size of the array - for us its the count of fireflies  *3 -> because we want to have 3 variables for position - x,y,z
+//here we are specifing the size of the array - for us its the count of fireflies  *3 
+//-> because we want to have 3 variables for position - x,y,z
 //becaues of xyz, xyz, xyz...
 
 for(let i = 0; i<particlesCount; i++)
@@ -351,7 +359,8 @@ controls.enableDamping = true //po przesunieciu ekranu nie zatrzymuje sie on od 
 /* RENDERER -------------------------------------------------------------------- 
 */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap 
@@ -366,6 +375,8 @@ gui
     {
         renderer.setClearColor(debugObject.clearColor)
     })
+
+
 /* ANIMATIONS -------------------------------------------------------------------- 
 */
 const clock = new THREE.Clock() 
@@ -384,13 +395,11 @@ const tick = () =>  //A tick is the dequeuing of an event from the "event loop q
     sungGroup.position.x = Math.sin(elapsedTime)*5  //cosinuida
     //together it makes our sun to run on circle 
 
-
     particleMesh.position.y = Math.sin(elapsedTime)
     candle1Group.position.y= (Math.sin(elapsedTime)/20 +1.1)
     candle2Group.position.y= (Math.cos(elapsedTime)/20 +1.1)
     candle3Group.position.y= (Math.cos(elapsedTime)/20 +3.3)
     candle4Group.position.y= (Math.sin(elapsedTime)/20 +3.3)
-
 
     // Update controls
     controls.update()
@@ -401,5 +410,4 @@ const tick = () =>  //A tick is the dequeuing of an event from the "event loop q
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }
-
 tick()
