@@ -292,7 +292,7 @@ waterFolder.add(rectAreaLight3, 'intensity')
 
 
 /*--------------------------- FIREFLIES -------------------------------------------------------------------- */
-
+//from Patricle system - they are awesome by Design Course - yt 
 const particlesGeometry = new THREE.BufferGeometry()
 const particlesCount = 1000
 const posArray = new Float32Array(particlesCount *3)
@@ -300,7 +300,7 @@ const posArray = new Float32Array(particlesCount *3)
 //-> because we want to have 3 variables for position - x,y,z
 //becaues of xyz, xyz, xyz...
 
-for(let i = 0; i<particlesCount; i++)
+for(let i = 0; i<particlesCount; i++)   //changed the position for my purposes
 {
     posArray[i*3 + 0] = ((Math.random()-0.5) * 1)+0.5
     posArray[i*3 + 1] = (Math.random() * 10) - 0.25
