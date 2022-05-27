@@ -42,7 +42,7 @@ gltfLoader.load(
         //console.log('room3.glb') 
     }
 ) 
-//the hamburger model was created also using blender to check if the models overall can be uploaded 
+//the hamburger model that is in the folder was created also using blender to check if the models overall can be uploaded 
 //hamburger model done using tutorial from threejs-journey 
 
 /*--------------------------- DEBUG -------------------------------------------------------------------- */
