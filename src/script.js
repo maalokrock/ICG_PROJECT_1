@@ -7,9 +7,7 @@ Project1 for ICG class, done using Threejs-journey course by Bruno Simon, youtub
 by DesignCourse, a lot of stackoverflow, examples from ICG class and three.js documentation. 
 */
 
-
-/* IMPORT -------------------------------------------------------------------- 
-*/
+/*--------------------------- IMPORT --------------------------------------------------------------------  */
 
 import './style.css'
 import * as THREE from 'three' 
@@ -20,16 +18,15 @@ import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js'
 import * as dat from 'dat.gui'
 
 
-const parameters = {color: 0xff0000} //instantiate for zmienna for changing color in gui folder 
+const parameters = {color: 0xff0000} //instantiate variable for changing color in gui folder 
 
-/* LOADERS -------------------------------------------------------------------- 
-*/
-//We have to instantiate DracoLoader before the gltf loader 
+/*--------------------------- LOADERS -------------------------------------------------------------------- */
+
+//We have to instantiate DracoLoader before the gltf loader  //from threejs-journey course
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('./assets/draco/')  
 /*now our draco loader will use faster version with web assembly with worker   
-"Workers let you put a part of your code in a different thread to spread the load." - source: course
-*/
+"Workers let you put a part of your code in a different thread to spread the load." - source: threejs-journey course */
 
 const gltfLoader = new GLTFLoader() //we are instantiating the loader
 gltfLoader.setDRACOLoader(dracoLoader)
@@ -44,18 +41,17 @@ gltfLoader.load(
         scene.add(gltf.scene)
         //console.log('room3.glb') 
     }
-)
+) 
+//the hamburger model was created also using blender to check if the models overall can be uploaded 
+//hamburger model done using tutorial from threejs-journey 
+
+/*--------------------------- DEBUG -------------------------------------------------------------------- */
+
+const debugObject = {}   //its like containter - to put smth inside - in this case color 
+const gui = new dat.GUI({closed:false})   //Debug controls are open when we enter the site 
 
 
-/* DEBUG -------------------------------------------------------------------- 
-*/
-const debugObject = {}   
-//its like containter - to put smth inside - in this case color 
-const gui = new dat.GUI({closed:false})   
-//Debug controls are open when we enter the site 
-
-
-//Creating folders: 
+/*---------------- CREATING FOLDERS ----------------- */
 const sunFolder = gui.addFolder('Sun')
 // const rectAreaLightFolder = gui.addFolder('Water1')
 // const rectAreaLight2Folder = gui.addFolder('Water2')
@@ -78,32 +74,30 @@ const Candle4Folder = gui.addFolder('Candle4')  //Pointlight for candle 4
 const LiliaFolder = gui.addFolder('Lilia')  //Pointlight for Lilia
 
 
-/* CANVAS ----------------- */
+/*--------------------------- CANVAS ----------------- */
 const canvas = document.querySelector('canvas.webgl')
 
 
-/* SCENE ----------------- */
+/*--------------------------- SCENE ----------------- */
 const scene = new THREE.Scene()
 
 
-// /* FLOOR  -------------------------------------------------------------------- 
-// */
-// const floor = new THREE.Mesh(
-//     new THREE.PlaneGeometry(7,7),
+/*--------------------------- FLOOR  -------------------------------------------------------------------- */
+
+// const floor = new THREE.Mesh(                                   //from threejs-journey course 
+//     new THREE.PlaneGeometry(7,7),                               //now the floor is not needed -> commented
 //     new THREE.MeshStandardMaterial(
 //         {
-//             color: '#444444',
-//             metalness: 0,
-//             roughness: 0.5
+//             color: '#201818',
 //         })
 // )
 // floor.receiveShadow = true   //this floor receive shadow     
-// floor.rotation.x= - Math.PI *0.5 //z pionowego ustawienia podloga jest teraz pozioma 
+// floor.rotation.x= - Math.PI *0.5 //from vertical the floor is now horizontal 
 //scene.add(floor)
 
 
-/* GROUPS -------------------------------------------------------------------- 
-*/
+/*--------------------------- GROUPS -------------------------------------------------------------------- */
+
 const sungGroup = new THREE.Group()
 scene.add(sungGroup)
 
@@ -111,18 +105,18 @@ const candle1Group = new THREE.Group()  //pointlight
 scene.add(candle1Group)
 const candle2Group = new THREE.Group()  //pointlight2
 scene.add(candle2Group)
-const candle3Group = new THREE.Group()  //pointlight2
+const candle3Group = new THREE.Group()  //pointlight3
 scene.add(candle3Group)
-const candle4Group = new THREE.Group()  //pointlight2
+const candle4Group = new THREE.Group()  //pointlight4
 scene.add(candle4Group)
-const LiliaGroup = new THREE.Group()  //pointlight2
+const LiliaGroup = new THREE.Group()  //pointlight5 - Lilia 
 scene.add(LiliaGroup)
 const waterGroup = new THREE.Group()
 scene.add(waterGroup)
 
 
-/* MODELS -------------------------------------------------------------------- 
-*/
+/*--------------------------- MODELS -------------------------------------------------------------------- */
+
 //SPHERE THAT SHOWS POSITION OF THE LIGHT - learned from lesson 4 ICG
 const sphereGeometry = new THREE.SphereGeometry(0.1,15,15)
                             //radius, widthSegments, heightSegments, 
@@ -180,10 +174,9 @@ LiliaGroup.position.set(0.6,0.35,0.95)  //ideal position for the candle
 
 
 
+/*--------------------------- LIGHTS -------------------------------------------------------------------- */
 
-/* LIGHTS -------------------------------------------------------------------- 
-*/
-//const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
+//const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)  //looks better without 
 //scene.add(ambientLight)
 
 const directionalLight = new THREE.DirectionalLight(0xffffff,0.5)
@@ -192,7 +185,7 @@ directionalLight.position.set(4,4,4)
 sungGroup.add(directionalLight)
 sunFolder.add(directionalLight, 'intensity')
 sunFolder.add(sungGroup, 'visible')
-//sunFolder.add(sungGroup.position, 'x').min(-5).max(5).step(0.001).name('SunX')
+//sunFolder.add(sungGroup.position, 'x').min(-5).max(5).step(0.001).name('SunX') //commented because I've found the best position
 //sunFolder.add(sungGroup.position, 'y').min(-5).max(5).step(0.001).name('SunY')
 sunFolder.add(sungGroup.position, 'z').min(-5).max(5).step(0.001).name('SunZ')
 
@@ -202,7 +195,7 @@ pointLight.position.set = (0,0,0)
 candle1Group.add(pointLight)
 
 Candle1Folder.add(candle1Group, 'visible')
-// Candle1Folder.add(candle1Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')
+// Candle1Folder.add(candle1Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')  //commented because I've found the best position
 // Candle1Folder.add(candle1Group.position, 'y').min(-5).max(5).step(0.001).name('pointLightY')
 // Candle1Folder.add(candle1Group.position, 'z').min(-10).max(0).step(0.001).name('pointLightZ')
 
@@ -213,7 +206,7 @@ pointLight2.position.set = (0,0,0)
 candle2Group.add(pointLight2)
 
 Candle2Folder.add(candle2Group, 'visible')
-// Candle2Folder.add(candle2Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')
+// Candle2Folder.add(candle2Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')  //commented because I've found the best position
 // Candle2Folder.add(candle2Group.position, 'y').min(-5).max(5).step(0.001).name('pointLightY')
 // Candle2Folder.add(candle2Group.position, 'z').min(-5).max(5).step(0.001).name('pointLightZ')
 
@@ -223,7 +216,7 @@ pointLight3.position.set = (0,0,0)
 candle3Group.add(pointLight3)
 
 Candle3Folder.add(candle3Group, 'visible')
-// Candle3Folder.add(candle3Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')
+// Candle3Folder.add(candle3Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')  //commented because I've found the best position
 // Candle3Folder.add(candle3Group.position, 'y').min(-5).max(5).step(0.001).name('pointLightY')
 // Candle3Folder.add(candle3Group.position, 'z').min(-5).max(5).step(0.001).name('pointLightZ')
 
@@ -234,7 +227,7 @@ pointLight4.position.set=(0,0,0)
 candle4Group.add(pointLight4)
 
 Candle4Folder.add(candle4Group, 'visible')
-// Candle4Folder.add(candle4Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')
+// Candle4Folder.add(candle4Group.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')  //commented because I've found the best position
 // Candle4Folder.add(candle4Group.position, 'y').min(-5).max(5).step(0.001).name('pointLightY')
 // Candle4Folder.add(candle4Group.position, 'z').min(-5).max(5).step(0.001).name('pointLightZ')
 
@@ -245,12 +238,12 @@ pointLightLilia.position.set=(0,0,0)
 LiliaGroup.add(pointLightLilia)
 
 LiliaFolder.add(LiliaGroup, 'visible')
-// LiliaFolder.add(LiliaGroup.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')
+// LiliaFolder.add(LiliaGroup.position, 'x').min(-5).max(5).step(0.001).name('pointLightX')  //commented because I've found the best position
 // LiliaFolder.add(LiliaGroup.position, 'y').min(-5).max(5).step(0.001).name('pointLightY')
 // LiliaFolder.add(LiliaGroup.position, 'z').min(-5).max(5).step(0.001).name('pointLightZ')
 
 
-//WATER 
+/*---------------- WATER ----------------- */
 
 const rectAreaLight = new THREE.RectAreaLight(0x0000ff, 30, 3,1.5)
                             //color, intensity, width, height)
@@ -258,10 +251,10 @@ rectAreaLight.rotation.y=  Math.PI *0.5
 rectAreaLight.position.set(1,-0.17,0.328)
 waterGroup.add(rectAreaLight)
 
-
-// waterFolder.add(rectAreaLight.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLightX')
+// waterFolder.add(rectAreaLight.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLightX')  //commented because I've found the best position
 // waterFolder.add(rectAreaLight.position, 'y').min(-5).max(5).step(0.001).name('rectAreaLightY')
 // waterFolder.add(rectAreaLight.position, 'z').min(-5).max(5).step(0.001).name('rectAreaLightZ')
+
 
 const rectAreaLight2 = new THREE.RectAreaLight(0x0000ff, 30, 4,1)
                             //color, intensity, width, height)
@@ -270,12 +263,13 @@ rectAreaLight2.position.set(1,2.5,-4.4)
 waterGroup.add(rectAreaLight2)
 
 //waterFolder.add(rectAreaLight2, 'visible')
-// waterFolder.add(rectAreaLight2.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLight2X')
+// waterFolder.add(rectAreaLight2.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLight2X') //commented because I've found the best position
 // waterFolder.add(rectAreaLight2.position, 'y').min(-5).max(5).step(0.001).name('rectAreaLight2Y')
 // waterFolder.add(rectAreaLight2.position, 'z').min(-5).max(5).step(0.001).name('rectAreaLight2Z')
 
 
-const rectAreaLight3 = new THREE.RectAreaLight(0x0000ff, 30, 4,1)
+
+const rectAreaLight3 = new THREE.RectAreaLight(0x0000ff, 30, 4,1) 
                             //color, intensity, width, height)
 rectAreaLight3.rotation.y=  Math.PI *0.5
 rectAreaLight3.rotation.x=  Math.PI *0.5
@@ -284,23 +278,21 @@ rectAreaLight3.position.set(1.154,0.5,-1.38)
 rectAreaLight3.rotation.set(-0.5,-4.68,-1.5)
 waterGroup.add(rectAreaLight3)
 
-//waterFolder.add(rectAreaLight3, 'visible')
-// waterFolder.add(rectAreaLight3.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLightX')
+// waterFolder.add(rectAreaLight3.position, 'x').min(-5).max(5).step(0.001).name('rectAreaLightX')  //commented because I've found the best position
 // waterFolder.add(rectAreaLight3.position, 'y').min(-5).max(5).step(0.001).name('rectAreaLightY')
 // waterFolder.add(rectAreaLight3.position, 'z').min(-5).max(5).step(0.001).name('rectAreaLightZ')
-//rectAreaLight3Folder.add(rectAreaLight3.colo)
 
 waterFolder.add(waterGroup, 'visible')
-waterFolder.add(rectAreaLight, 'intensity')
-waterFolder.add(rectAreaLight2, 'intensity')
+waterFolder.add(rectAreaLight, 'intensity')  //I've got problem with putting this
+waterFolder.add(rectAreaLight2, 'intensity')  //as a waterGroup - the site were freezing 
 waterFolder.add(rectAreaLight3, 'intensity')
 
 //const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight);
 //rectAreaLight.add( rectAreaLightHelper )
 
-/*
- FIREFLIES -------------------------------------------------------------------- 
-*/
+
+/*--------------------------- FIREFLIES -------------------------------------------------------------------- */
+
 const particlesGeometry = new THREE.BufferGeometry()
 const particlesCount = 1000
 const posArray = new Float32Array(particlesCount *3)
@@ -325,8 +317,8 @@ const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particleMesh)
 
 
-/* SIZES -------------------------------------------------------------------- 
-*/
+/* --------------------------- SIZES -------------------------------------------------------------------- */
+
 const sizes = {
 width: window.innerWidth,
 height: window.innerHeight
@@ -345,8 +337,9 @@ window.addEventListener('resize', () =>  //code understand when is the resizing 
         renderer.setSize(sizes.width,sizes.height)
     })
 
-/* CAMERA -------------------------------------------------------------------- 
-*/
+
+/*--------------------------- CAMERA -------------------------------------------------------------------- */
+
 const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1,100)
 camera.position.set(2,2,2)
 scene.add(camera)
@@ -357,8 +350,8 @@ const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true //po przesunieciu ekranu nie zatrzymuje sie on od razu tylko po chwili 
 
 
-/* RENDERER -------------------------------------------------------------------- 
-*/
+/*--------------------------- RENDERER -------------------------------------------------------------------- */
+
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     antialias: true
@@ -369,7 +362,7 @@ renderer.setSize(sizes.width,sizes.height)
 renderer.render(scene,camera) 
 
 debugObject.clearColor = '#201818'  //clear color is the property //debug Object is the container 
-renderer.setClearColor(debugObject.clearColor)
+renderer.setClearColor(debugObject.clearColor)  //from threejs-journey course 
 gui
     .addColor(debugObject, 'clearColor')
     .onChange(() =>
@@ -378,7 +371,7 @@ gui
     })
 
 
-/* ANIMATIONS -------------------------------------------------------------------- 
+/*--------------------------- ANIMATIONS -------------------------------------------------------------------- 
 */
 const clock = new THREE.Clock() 
 let previousTime = 0 
