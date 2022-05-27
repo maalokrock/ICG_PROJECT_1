@@ -2,6 +2,7 @@
 Project name: Magical room 
 Student number: 106740
 Code has been written for educational purposes. 
+I've created the model in Blender for different course project - LM4, and the textures were provided by the teacher.
 Project1 for ICG class, done using Threejs-journey course by Bruno Simon, youtube(Working with Three.js Particle Systems - They're AWESOME!) 
 by DesignCourse, a lot of stackoverflow, examples from ICG class and three.js documentation. 
 */
@@ -367,7 +368,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 renderer.setSize(sizes.width,sizes.height)
 renderer.render(scene,camera) 
 
-debugObject.clearColor = '#201818'  //clear color is the property 
+debugObject.clearColor = '#201818'  //clear color is the property //debug Object is the container 
 renderer.setClearColor(debugObject.clearColor)
 gui
     .addColor(debugObject, 'clearColor')
@@ -395,7 +396,7 @@ const tick = () =>  //A tick is the dequeuing of an event from the "event loop q
     sungGroup.position.x = Math.sin(elapsedTime)*5  //cosinuida
     //together it makes our sun to run on circle 
 
-    particleMesh.position.y = Math.sin(elapsedTime)
+    particleMesh.position.y= Math.sin(elapsedTime)
     candle1Group.position.y= (Math.sin(elapsedTime)/20 +1.1)
     candle2Group.position.y= (Math.cos(elapsedTime)/20 +1.1)
     candle3Group.position.y= (Math.cos(elapsedTime)/20 +3.3)
